@@ -8,7 +8,7 @@ const App = () => {
 	const stopTimers = () => setIsRunning(false)
 
 	return (
-		<div className='min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center gap-12'>
+		<div className='min-h-screen min-w-screen bg-gray-900 text-white flex flex-col items-center justify-center gap-12'>
 			<div className='text-6xl mb-4'>Camera Timers</div>
 			<div className='flex flex-col justify-center items-center gap-12 sm:flex-row'>
 				<Timer duration={6} isRunning={isRunning} />
