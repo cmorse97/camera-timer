@@ -1,30 +1,11 @@
-import { useState, useEffect } from 'react'
-
-const Timer = ({ duration, isRunning }) => {
-	const [timeLeft, setTimeLeft] = useState(duration)
-
-	useEffect(() => {
-		if (!isRunning) return
-
-		const interval = setInterval(() => {
-			setTimeLeft(prev => {
-				if (prev === 1) return duration
-				return prev - 1
-			})
-		}, 1000)
-
-		return () => clearInterval(interval)
-	}, [isRunning])
-
-	useEffect(() => {
-		if (!isRunning) {
-			setTimeLeft(duration)
-		}
-	}, [isRunning, duration])
-
+const Timer = ({ duration }) => {
 	return (
-		<div className='w-24 h-24 flex items-center justify-center bg-gray-800 rounded-full'>
-			<span className='text-2xl'>{timeLeft}</span>
+		<div
+			className={`w-36 h-36 flex items-center justify-center bg-gray-800 rounded-full sm:w-48 sm:h-48 ${
+				duration === 0 ? 'bg-red-600' : 'bg-gray-800'
+			}`}
+		>
+			<span className='text-4xl sm:text-6xl'>{duration}</span>
 		</div>
 	)
 }
