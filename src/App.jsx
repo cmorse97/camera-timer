@@ -2,55 +2,57 @@ import { useState, useEffect } from 'react'
 import Timer from './components/Timers'
 
 const App = () => {
-	const initialDurations = { t6: 6, t8: 8, t12: 12 }
-	const [timers, setTimers] = useState(initialDurations)
+	const [timerT6, setTimerT6] = useState(6)
+	const [timerT8, setTimerT8] = useState(8)
+	const [timerT12, setTimerT12] = useState(12)
 	const [isRunning, setIsRunning] = useState(false)
 
 	const startTimers = () => setIsRunning(true)
 	const stopTimers = () => {
 		setIsRunning(false)
-		setTimers(initialDurations)
+		setTimerT6(6)
+		setTimerT8(8)
+		setTimerT12(12)
 	}
 
 	useEffect(() => {
 		if (!isRunning) return
 
-		const interval = setInterval(() => {
-			setTimers(prevTimers => {
-				const { t6, t8, t12 } = prevTimers
-				if (t12 > 0) {
-					return {
-						t6: t6 > 0 ? t6 - 1 : 0,
-						t8: t8 > 0 ? t8 - 1 : 0,
-						t12: t12 - 1
-					}
-				} else {
-					return initialDurations
-				}
-			})
+		const intervalT6 = setInterval(() => {
+			setTimerT6(prev => (prev > 0 ? prev - 1 : 6))
+		}, 1000)
+		const intervalT8 = setInterval(() => {
+			setTimerT8(prev => (prev > 0 ? prev - 1 : 8))
+		}, 1000)
+		const intervalT12 = setInterval(() => {
+			setTimerT12(prev => (prev > 0 ? prev - 1 : 12))
 		}, 1000)
 
-		return () => clearInterval(interval)
+		return () => {
+			clearInterval(intervalT6)
+			clearInterval(intervalT8)
+			clearInterval(intervalT12)
+		}
 	}, [isRunning])
 
 	return (
-		<div className='min-h-screen min-w-screen bg-gray-900 text-white flex flex-col items-center justify-center gap-12'>
-			<div className='text-4xl mb-4 sm:text-6xl'>Camera Timers</div>
-			<div className='flex flex-col justify-center items-center gap-12 sm:flex-row'>
-				<Timer duration={timers.t6} />
-				<Timer duration={timers.t8} />
-				<Timer duration={timers.t12} />
+		<div className='flex flex-col items-center justify-center min-h-screen gap-12 text-white bg-gray-900 min-w-screen'>
+			<div className='mb-4 text-4xl sm:text-6xl'>Camera Timers</div>
+			<div className='flex flex-col items-center justify-center gap-12 sm:flex-row'>
+				<Timer duration={timerT6} />
+				<Timer duration={timerT8} />
+				<Timer duration={timerT12} />
 			</div>
 			<div className='mt-4'>
 				<button
 					onClick={startTimers}
-					className='w-36 h-16 px-4 py-2 mr-4 bg-blue-600 rounded'
+					className='h-16 px-4 py-2 mr-4 bg-blue-600 rounded w-36'
 				>
 					Start
 				</button>
 				<button
 					onClick={stopTimers}
-					className='w-36 h-16 px-4 py-2 bg-red-600 rounded ml-2'
+					className='h-16 px-4 py-2 ml-2 bg-red-600 rounded w-36'
 				>
 					Stop
 				</button>
